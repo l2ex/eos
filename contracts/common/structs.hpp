@@ -39,6 +39,7 @@ struct channel {
     // Expiration date (timestamp)
     uint32_t expiration;
 
+    // Map of accounts indexed by symbol_type
     accounts_t accounts;
 
 

@@ -37,7 +37,7 @@ struct channel {
     public_key owner_key;
 
     // Expiration date (timestamp)
-    uint64_t expiration;
+    uint32_t expiration;
 
     accounts_t accounts;
 

@@ -32,7 +32,7 @@ class l2dex : public eosio::contract {
 
     // Extends expiration of the channel by user
     /// @abi action
-    void extend(account_name sender, uint64_t ttl);
+    void extend(account_name sender, uint32_t ttl);
 
 private:
 
@@ -48,10 +48,10 @@ private:
     flat_map<symbol_name, int64_t> balances;
 
     // Minimal TTL that can be used to extend existing channel
-    const uint64_t TTL_MIN = 60 * 60 * 24;
+    const uint32_t TTL_MIN = 60 * 60 * 24;
 
     // Initial TTL for new channels created just after the first deposit
-    const uint64_t TTL_DEFAULT = 60 * 60 * 24 * 7;
+    const uint32_t TTL_DEFAULT = 60 * 60 * 24 * 7;
 };
 
 EOSIO_ABI(l2dex, (changeowner)(deposit)(withdraw)(pushtx)(extend))

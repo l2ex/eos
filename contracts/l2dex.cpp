@@ -174,7 +174,7 @@ void l2dex::pushtx(account_name sender, account_name channel_owner, eosio::asset
     }
 }
 
-void l2dex::extend(account_name sender, uint64_t ttl) {
+void l2dex::extend(account_name sender, uint32_t ttl) {
 
     require_auth(sender);
     eosio_assert(ttl > TTL_MIN, "invalid TTL" );
@@ -184,7 +184,7 @@ void l2dex::extend(account_name sender, uint64_t ttl) {
     auto channel = channels.find(sender);
     eosio_assert(channel != channels.end(), "channel does not exist");
 
-    uint64_t expiration = now() + ttl;
+    auto expiration = now() + ttl;
     eosio_assert(expiration > channel->expiration, "new expiration is less than previous one");
 
     channels.modify(channel, 0, [&](auto& c) {

@@ -10,9 +10,14 @@ class l2dex : public eosio::contract {
     using contract::contract;
 
     using channels_t = eosio::multi_index<N(channels_t), channel>;
+    using states_t = eosio::multi_index<N(states_t), state>;
 
 
-    l2dex(account_name self, account_name owner, public_key owner_key, account_name oracle);
+    l2dex(account_name self);
+
+    // Initializes the contract so it can be used
+    /// @abi action
+    void initialize(account_name owner, public_key owner_key, account_name oracle);
 
     // Changes owner address by oracle
     /// @abi action
@@ -36,16 +41,12 @@ class l2dex : public eosio::contract {
 
 private:
 
-    void apply_balance_change(channels_t& channels, const channel& channel, symbol_name symbol);
+    void apply_balance_change(const state& state, channels_t& channels, const channel& channel, symbol_name symbol);
 
 private:
 
-    account_name owner;
-    public_key owner_key;
-
-    account_name oracle;
-
-    flat_map<symbol_name, int64_t> balances;
+    channels_t channels;
+    states_t states;
 
     // Minimal TTL that can be used to extend existing channel
     const uint32_t TTL_MIN = 60 * 60 * 24;
@@ -54,4 +55,4 @@ private:
     const uint32_t TTL_DEFAULT = 60 * 60 * 24 * 7;
 };
 
-EOSIO_ABI(l2dex, (changeowner)(deposit)(withdraw)(pushtx)(extend))
+EOSIO_ABI(l2dex, (initialize)(changeowner)(deposit)(withdraw)(pushtx)(extend))

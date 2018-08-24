@@ -9,5 +9,6 @@ module.exports = {
             verbose: false,
             sign: false
         }
-    }
+    },
+    token: 'TSTJ'
 }

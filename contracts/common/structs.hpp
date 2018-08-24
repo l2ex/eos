@@ -8,6 +8,26 @@ using namespace eosio;
 using boost::container::flat_map;
 
 
+struct state {
+
+    uint64_t id;
+
+    account_name owner;
+    public_key owner_key;
+
+    account_name oracle;
+    
+    bool initialized = false;
+
+    flat_map<symbol_name, int64_t> balances;
+
+
+    auto primary_key() const { return id; }
+
+    EOSLIB_SERIALIZE(state, (id)(initialized)(owner)(owner_key)(oracle)(balances))
+};
+
+
 struct account {
 
     // Amount of tokens stored on the channel
@@ -26,7 +46,6 @@ struct account {
     EOSLIB_SERIALIZE(account, (balance)(change)(nonce)(can_withdraw))
 };
 
-using accounts_t = flat_map<symbol_name, account>;
 
 struct channel {
 
@@ -40,7 +59,7 @@ struct channel {
     uint32_t expiration;
 
     // Map of accounts indexed by symbol_type
-    accounts_t accounts;
+    flat_map<symbol_name, account> accounts;
 
 
     auto primary_key() const { return owner; }

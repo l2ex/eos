@@ -1,37 +1,29 @@
 const EosHelper = require('./common/eos-helper')
-
 const eosHelper = new EosHelper()
 
-//eosHelper.getInfo()
+const config = require('./common/config')
+const accounts = require('./common/accounts')
 
-if (false) {
+const symbol = config.token
+const tokenHolderName = accounts.test.name
 
-    const account = 'account.test'
-    const keysPrivate = { owner: '5JKp8AEdkY3RBHTufeRgqjzxuUXzES12fi7QnA9Wm8M1coBKtun', active: '5JX33qxAD5qVq2bhyJy7Bx64g4Atau1BKiAFBpM9JKaxCT87Qse' }
-    const keysPublic = { owner: 'EOS6Ae8qZ6NwyED67sYRtYfuU7hBqp6moC3SkW6iRJ54wWUzFR4kQ', active: 'EOS7EZDzfQf9jaW9aJdjUckmqAaBgzHj8WUVqCLBY9Av2UA4ELqkQ' }
-    const ramBytes = 1024 * 32
-    
-    eosHelper.createAccount(account, keysPublic).then(result => {
-        console.log()
-        console.log(`Created account '${account}':`)
-        console.log(result)
+
+async function go() {
+
+    await eosHelper.getInfo().then(info => {
+        //console.log(info)
+        console.log(`Current block: ${info.head_block_num}`)
     })
     
-    eosHelper.buyRAM(account, ramBytes).then(result => {
-        console.log()
-        console.log(`Bought ${ramBytes} bytes for account '${account}':`)
-        console.log(result)
+    await eosHelper.getCurrencyBalance(tokenHolderName, symbol).then(balance => {
+        console.log(`Account ${tokenHolderName} has ${balance || `no ${symbol}`}`)
     })
-    
-    eosHelper.buyBandwidth(account).then(result => {
-        console.log()
-        console.log(`Bought resources for account '${account}':`)
-        console.log(result)
-    })
-
 }
 
-if (true) {
+go()
+
+
+if (false) {
 
     const message = 'Hello World!'
     const messageHash = eosHelper.sha256(message)

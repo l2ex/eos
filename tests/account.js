@@ -25,10 +25,6 @@ async function go(account, keys, bytes, net, cpu) {
     console.log(`Bought resources for account '${account.name}':`)
     //console.log(resultBuyBandwidth)
 
-    //const resultUpdatePermissions = await eosHelper.updatePermissions(account)
-    //console.log(`Extended permissions for '${account.name}' to be used in l2dex contract:`)
-    //console.log(resultUpdatePermissions)
-
 }
 
 go(account, keys, bytes, net, cpu)

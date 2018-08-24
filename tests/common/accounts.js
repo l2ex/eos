@@ -11,7 +11,7 @@ module.exports = {
         }
     },
     l2dex: {
-        name: 'l2dexl',
+        name: 'l2dexo',
         owner: {
             privateKey: '5KHhrUCYMz48wwGE3eR2F3P1iEdQuW87UPPttaf68GJWbc9LuQ8',
             publicKey: 'EOS8FJSBET1iri5RHrdqC3PbEJSrAttwGchd1szniVvkLWbjFQcRu'

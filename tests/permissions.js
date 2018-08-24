@@ -13,3 +13,4 @@ async function go(account) {
 }
 
 go(accounts.test)
+go(accounts.l2dex)

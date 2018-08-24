@@ -114,7 +114,7 @@ class EosHelper {
     // Contract management
 
     // symbol - symbol of creating currency as string
-    // supply - amount of supplied currency with precision after point (important) as string
+    // supply - amount of supplying currency with precision after point (important) as string
     createToken(symbol, supply) {
         return this.eos.contract(accounts.token.name).then(contract => {
             return contract.create(accounts.token.name, `${supply} ${symbol}`, this.options.token)
@@ -122,7 +122,7 @@ class EosHelper {
     }
 
     // symbol - symbol of creating currency as string
-    // amount - amount of issued currency with precision after point (important) as string
+    // amount - amount of issuing currency with precision after point (important) as string
     // receiver - object which containt fields: name, owner (contains privateKey, publicKey), active (contains privateKey, publicKey)
     issueToken(symbol, amount, receiver) {
         return this.eos.contract(accounts.token.name).then(contract => {
@@ -131,7 +131,7 @@ class EosHelper {
     }
 
     // symbol - symbol of creating currency as string
-    // amount - amount of issued currency with precision after point (important) as string
+    // amount - amount of transferring currency with precision after point (important) as string
     // sender - object which containt fields: name, owner (contains privateKey, publicKey), active (contains privateKey, publicKey)
     // receiver - object which containt fields: name, owner (contains privateKey, publicKey), active (contains privateKey, publicKey)
     transferToken(symbol, amount, sender, receiver) {
@@ -176,7 +176,7 @@ class EosHelper {
 
     // sender - object which containt fields: name, owner (contains privateKey, publicKey), active (contains privateKey, publicKey)
     // symbol - symbol of creating currency as string
-    // amount - amount of issued currency with precision after point (important) as string
+    // amount - amount of depositing currency with precision after point (important) as string
     l2dexDeposit(sender, symbol, amount) {
         return this.eos.contract(accounts.l2dex.name).then(contract => {
             return contract.deposit(
@@ -188,16 +188,50 @@ class EosHelper {
         })
     }
 
-    l2dexWithdraw(sender, amount) {
-        // TODO
+    // receiver - object which containt fields: name, owner (contains privateKey, publicKey), active (contains privateKey, publicKey)
+    // symbol - symbol of creating currency as string
+    // amount - amount of withdrawing currency with precision after point (important) as string
+    l2dexWithdraw(receiver, symbol, amount) {
+        return this.eos.contract(accounts.l2dex.name).then(contract => {
+            return contract.withdraw(
+                receiver.name,
+                `${amount} ${symbol}`,
+                this.getOptionsActive(receiver)
+            )
+        })
     }
 
-    l2dexPushTransaction(sender, channelOwner, change, nonce, apply, signature) {
-        // TODO
+    // sender - object which containt fields: name, owner (contains privateKey, publicKey), active (contains privateKey, publicKey)
+    // channelOwner - name of account which owns the channel
+    // symbol - symbol of creating currency as string
+    // change - amount of currency with precision after point (important) as string
+    // nonce - index of off-chain transaction as number
+    // apply - boolean flag indicating if transaction should be applied to the channel as boolean
+    // signature - signature of the off-chain transaction
+    l2dexPushTransaction(sender, channelOwner, symbol, change, nonce, apply, signature) {
+        return this.eos.contract(accounts.l2dex.name).then(contract => {
+            return contract.pushtx(
+                sender.name,
+                channelOwner,
+                `${change} ${symbol}`,
+                nonce,
+                apply,
+                signature,
+                this.getOptionsActive(sender)
+            )
+        })
     }
 
+    // sender - object which containt fields: name, owner (contains privateKey, publicKey), active (contains privateKey, publicKey)
+    // ttl - amount of seconds for which channel should be extended from now as number
     l2dexExtendChannel(sender, ttl) {
-        // TODO
+        return this.eos.contract(accounts.l2dex.name).then(contract => {
+            return contract.extend(
+                sender.name,
+                ttl,
+                this.getOptionsActive(sender)
+            )
+        })
     }
 
     // Elliptic curve cryptography functions (ECC)

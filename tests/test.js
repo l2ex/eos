@@ -21,23 +21,3 @@ async function go() {
 }
 
 go()
-
-
-if (false) {
-
-    const message = 'Hello World!'
-    const messageHash = eosHelper.sha256(message)
-    console.log(`Message      : ${message}`)
-    console.log(`Message hash : 0x${messageHash}`)
-
-    const signatureData = eosHelper.signData(message, '5JKp8AEdkY3RBHTufeRgqjzxuUXzES12fi7QnA9Wm8M1coBKtun')
-    const signatureHash = eosHelper.signHash(messageHash, '5JKp8AEdkY3RBHTufeRgqjzxuUXzES12fi7QnA9Wm8M1coBKtun')
-    console.log(`Signature calculated from message      : ${signatureData}`)
-    console.log(`Signature calculated from message hash : ${signatureHash}`)
-
-    const recoveredPublicKeyData = eosHelper.recoverData(message, signatureData)
-    const recoveredPublicKeyHash = eosHelper.recoverHash(messageHash, signatureData)
-    console.log(`Public key recovered from signature (data) : ${recoveredPublicKeyData}`)
-    console.log(`Public key recovered from signature (hash) : ${recoveredPublicKeyHash}`)
-    
-}

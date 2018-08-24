@@ -159,7 +159,7 @@ void l2dex::pushtx(account_name sender, account_name channel_owner, eosio::asset
 
     auto symbol = symbol_name(change.symbol);
 
-    auto channel = channels.find(sender);
+    auto channel = channels.find(channel_owner);
     eosio_assert(channel != channels.end(), "channel does not exist");
 
     auto account = channel->accounts.find(symbol);
@@ -168,8 +168,13 @@ void l2dex::pushtx(account_name sender, account_name channel_owner, eosio::asset
     eosio_assert(nonce > account->second.nonce, "invalid nonce");
     eosio_assert(change.amount >= 0 || account->second.balance >= -change.amount, "invalid change amount");
 
-    std::string message = std::to_string(channel_owner) + std::to_string(symbol_name(change.symbol)) +
-        std::to_string(nonce) + std::to_string(apply);
+    std::string message =
+        std::to_string(channel_owner) + ";" +
+        std::to_string(change.symbol) + ";" +
+        std::to_string(change.amount) + ";" +
+        std::to_string(nonce) + ";" +
+        std::to_string(apply);
+    print("Message: ", message, "\n");
     checksum256 message_hash;
     sha256(const_cast<char*>(message.c_str()), message.length(), &message_hash);
     public_key key;

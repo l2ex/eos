@@ -30,20 +30,20 @@ struct state {
 
 struct account {
 
-    // Amount of tokens stored on the channel
+    // Amount of tokens available to trade by user
     int64_t balance;
 
     // Amount of tokens pending to move to/from (depends on sign of the value) the balance
     int64_t change;
 
-    // Index of the last transaction
+    // Amount of tokens available to withdraw by user
+    uint64_t withdrawable;
+
+        // Index of the last pushed transaction
     uint64_t nonce;
 
-    // Ability to withdraw by user
-    bool can_withdraw = false;
 
-
-    EOSLIB_SERIALIZE(account, (balance)(change)(nonce)(can_withdraw))
+    EOSLIB_SERIALIZE(account, (balance)(change)(withdrawable)(nonce))
 };
 
 
@@ -61,8 +61,14 @@ struct channel {
     // Map of accounts indexed by symbol_type
     flat_map<symbol_name, account> accounts;
 
+    // Contract owner
+    account_name contract_owner;
+
+    // Contract owner's public key
+    public_key contract_owner_key;
+
 
     auto primary_key() const { return owner; }
 
-    EOSLIB_SERIALIZE(channel, (owner)(owner_key)(expiration)(accounts))
+    EOSLIB_SERIALIZE(channel, (owner)(owner_key)(expiration)(accounts)(contract_owner)(contract_owner_key))
 };

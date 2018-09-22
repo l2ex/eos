@@ -202,6 +202,18 @@ class EosHelper {
     }
 
     // sender - object which containt fields: name, owner (contains privateKey, publicKey), active (contains privateKey, publicKey)
+    // ttl - amount of seconds for which channel should be extended from now as number
+    l2dexExtendChannel(sender, ttl) {
+        return this.eos.contract(accounts.l2dex.name).then(contract => {
+            return contract.extend(
+                sender.name,
+                ttl,
+                this.getOptionsActive(sender)
+            )
+        })
+    }
+
+    // sender - object which containt fields: name, owner (contains privateKey, publicKey), active (contains privateKey, publicKey)
     // channelOwner - name of account which owns the channel
     // symbol - symbol of creating currency as string
     // change - amount of currency with precision after point (important) as string
@@ -210,25 +222,13 @@ class EosHelper {
     // signature - signature of the off-chain transaction
     l2dexPushTransaction(sender, channelOwner, symbol, change, nonce, apply, signature) {
         return this.eos.contract(accounts.l2dex.name).then(contract => {
-            return contract.pushtx(
+            return contract.update(
                 sender.name,
                 channelOwner,
                 `${change} ${symbol}`,
                 nonce,
                 apply,
                 signature,
-                this.getOptionsActive(sender)
-            )
-        })
-    }
-
-    // sender - object which containt fields: name, owner (contains privateKey, publicKey), active (contains privateKey, publicKey)
-    // ttl - amount of seconds for which channel should be extended from now as number
-    l2dexExtendChannel(sender, ttl) {
-        return this.eos.contract(accounts.l2dex.name).then(contract => {
-            return contract.extend(
-                sender.name,
-                ttl,
                 this.getOptionsActive(sender)
             )
         })

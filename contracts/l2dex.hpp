@@ -31,17 +31,27 @@ class l2dex : public eosio::contract {
     /// @abi action
     void withdraw(account_name sender, eosio::asset amount);
 
-    // Push offchain transaction with most recent balance change by user or by contract owner
-    /// @abi action
-    void pushtx(account_name sender, account_name owner, eosio::asset change, uint64_t nonce, bool apply, const signature& sign);
-
     // Extends expiration of the channel by user
     /// @abi action
     void extend(account_name sender, uint32_t ttl);
 
+    // Push offchain transaction with most recent balance change by user or by contract owner
+    /// @abi action
+    void update(
+        account_name sender,
+        account_name owner,
+        eosio::asset change,
+        uint64_t nonce,
+        bool apply,
+        uint64_t free,
+        const signature& sign
+    );
+
 private:
 
-    void apply_balance_change(const state& state, channels_t& channels, const channel& channel, symbol_name symbol);
+    void update_balance(const state& state, channels_t& channels, const channel& channel, symbol_name symbol);
+
+    void update_withdrawable(const state& state, channels_t& channels, const channel& channel, symbol_name symbol, uint64_t free);
 
 private:
 
@@ -49,10 +59,8 @@ private:
     states_t states;
 
     // Minimal TTL that can be used to extend existing channel
-    const uint32_t TTL_MIN = 60 * 60 * 24;
+    const uint32_t TTL_MIN = 60 * 60 * 24; // 1 day
 
     // Initial TTL for new channels created just after the first deposit
-    const uint32_t TTL_DEFAULT = 60 * 60 * 24 * 7;
+    const uint32_t TTL_DEFAULT = 60 * 60 * 24 * 7; // 7 days
 };
-
-EOSIO_ABI(l2dex, (initialize)(changeowner)(deposit)(withdraw)(pushtx)(extend))

@@ -21,7 +21,7 @@ async function l2dex() {
 async function go() {
 
     await token()
-    //await l2dex()
+    await l2dex()
 
 }
 

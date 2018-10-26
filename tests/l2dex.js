@@ -1,5 +1,3 @@
-const SignatureHelper = require('./common/signature-helper')
-
 const EosHelper = require('./common/eos-helper')
 const eosHelper = new EosHelper()
 
@@ -12,12 +10,7 @@ const user = accounts.test
 
 const symbol = config.token
 const amountDeposit = '10.000000000'
-const amountWithdraw = '300.000000000'
-const changeOwner = '7.000000000'
-const changeUser = '-7.000000000'
-const nonceOwner = 15
-const nonceUser = 14
-const apply = true
+const amountWithdraw = '7.000000000'
 
 
 async function go() {
@@ -53,29 +46,17 @@ async function go() {
 
     }
 
-    // Push off-chain transaction from contract owner
-    if (false) {
+    // // Push off-chain transaction from contract owner
+    // if (false) {
 
-        const message = SignatureHelper.serializeMessage(user.name, symbol, changeUser, nonceUser, apply)
-        const messageHash = SignatureHelper.sha256(Buffer.from(message))
-        const signature = SignatureHelper.sign(messageHash, user.active.privateKey)
-        const resultPushTransaction = await eosHelper.l2dexPushTransaction(owner, user.name, symbol, changeUser, nonceUser, apply ? 1 : 0, signature)
-        console.log('Push off-chain transaction was successful:')
-        //console.log(resultPushTransaction)
+    //     const message = SignatureHelper.serializeMessage(user.name, symbol, changeUser, nonceUser, apply)
+    //     const messageHash = SignatureHelper.sha256(Buffer.from(message))
+    //     const signature = SignatureHelper.sign(messageHash, user.active.privateKey)
+    //     const resultPushTransaction = await eosHelper.l2dexPushTransaction(owner, user.name, symbol, changeUser, nonceUser, apply ? 1 : 0, signature)
+    //     console.log('Push off-chain transaction was successful:')
+    //     //console.log(resultPushTransaction)
 
-    }
-
-    // Push off-chain transaction from channel owner
-    if (false) {
-
-        const message = SignatureHelper.serializeMessage(user.name, symbol, changeOwner, nonceOwner, false)
-        const messageHash = SignatureHelper.sha256(Buffer.from(message))
-        const signature = SignatureHelper.sign(messageHash, owner.active.privateKey)
-        const resultPushTransaction = await eosHelper.l2dexPushTransaction(user, user.name, symbol, changeOwner, nonceOwner, 0, signature)
-        console.log('Push off-chain transaction was successful:')
-        //console.log(resultPushTransaction)
-
-    }
+    // }
 
     // Withdraw some tokens from the channel
     if (false) {

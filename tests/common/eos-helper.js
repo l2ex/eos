@@ -242,32 +242,6 @@ class EosHelper {
         })
     }
 
-    // Elliptic curve cryptography functions (ECC)
-
-    privateKeyToPublicKey(privateKey) {
-        return EosEcc.privateToPublic(privateKey)
-    }
-
-    sha256(data, encoding) {
-        return EosEcc.sha256(data, encoding)
-    }
-
-    signData(data, privateKey) {
-        return EosEcc.sign(data, privateKey)
-    }
-
-    signHash(hash, privateKey) {
-        return EosEcc.signHash(hash, privateKey)
-    }
-
-    recoverData(data, signature) {
-        return EosEcc.recover(signature, data)
-    }
-
-    recoverHash(hash, signature) {
-        return EosEcc.recoverHash(signature, hash)
-    }
-
     // Helper function
 
     getOptionsOwner(account) {

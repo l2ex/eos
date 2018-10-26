@@ -3,12 +3,12 @@ module.exports = {
         config: {
             chainId: null,
             keyProvider: [],
-            httpEndpoint: 'http://127.0.0.1:8888',
+            httpEndpoint: 'http://192.168.0.190:7777',
             expireInSeconds: 60,
             broadcast: true,
             verbose: false,
             sign: false
         }
     },
-    token: 'TSTJ'
+    token: 'TST'
 }

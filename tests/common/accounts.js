@@ -2,16 +2,16 @@ module.exports = {
     token: {
         name: 'eosio.token',
         owner: {
-            privateKey: '5JjLcrNXSHkHac1XC3ENy4wajccW8gP31ra9pcfFynNoUYPXA36',
-            publicKey: 'EOS5SgBKgPo2wmusCqxsMiMpnb4i7RCZjFuyKwMKDWk3wAhHHFkpw'
+            privateKey: '???',
+            publicKey: '???'
         },
         active: {
-            privateKey: '5JjLcrNXSHkHac1XC3ENy4wajccW8gP31ra9pcfFynNoUYPXA36',
-            publicKey: 'EOS5SgBKgPo2wmusCqxsMiMpnb4i7RCZjFuyKwMKDWk3wAhHHFkpw'
+            privateKey: '???',
+            publicKey: '???'
         }
     },
     l2dex: {
-        name: 'l2dexo',
+        name: 'l2dex',
         owner: {
             privateKey: '5KHhrUCYMz48wwGE3eR2F3P1iEdQuW87UPPttaf68GJWbc9LuQ8',
             publicKey: 'EOS8FJSBET1iri5RHrdqC3PbEJSrAttwGchd1szniVvkLWbjFQcRu'
@@ -22,7 +22,7 @@ module.exports = {
         }
     },
     test: {
-        name: 'testf',
+        name: 'test',
         owner: {
             privateKey: '5JKp8AEdkY3RBHTufeRgqjzxuUXzES12fi7QnA9Wm8M1coBKtun',
             publicKey: 'EOS6Ae8qZ6NwyED67sYRtYfuU7hBqp6moC3SkW6iRJ54wWUzFR4kQ'
@@ -33,7 +33,7 @@ module.exports = {
         }
     },
     first: {
-        name: 'first',
+        name: 'user.a',
         owner: {
             privateKey: '5JNqrsYZ37rrDedfdobnvbB7NQoYo2Q4x3tUvDAiNRzdBZ7gMEQ',
             publicKey: 'EOS7fSVfY9GiDUDH8D1j5E7ctvYiwXzo1rTnQLaBRe4KikPCwfV23'
@@ -44,7 +44,7 @@ module.exports = {
         }
     },
     second: {
-        name: 'second',
+        name: 'user.b',
         owner: {
             privateKey: '5J6oqmuDsZbdisRjb6RPYMh8d5KopR9MG2PkXwxwxgnWkNU65SK',
             publicKey: 'EOS8didhmmaTazuiEVAAHSLxrAt5bVUvX57nCneGXNW6oujZZ2A6i'
@@ -55,7 +55,7 @@ module.exports = {
         }
     },
     third: {
-        name: 'third',
+        name: 'user.c',
         owner: {
             privateKey: '5JQFWnkjvJwMDEVh3RABpKUXtHcqhtydwFphURLtQGkXyYVdVFP',
             publicKey: 'EOS8Ymg283hyksjm8Pw6kRaYMx2XGbTCZHswXgFDXeFtz9pVZJ9vg'

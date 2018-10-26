@@ -27,7 +27,7 @@ async function go() {
 
         const resultInitialize = await eosHelper.l2dexInitialize(owner, oracle)
         console.log('Initializing contract was successful:')
-        //console.log(resultInitialize)
+        console.log(resultInitialize)
 
     }
 

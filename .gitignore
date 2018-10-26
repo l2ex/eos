@@ -61,4 +61,5 @@ typings/
 .next
 
 .vscode
+bin
 build

@@ -6,7 +6,7 @@ async function go() {
 
     const resultDeploy = await eosHelper.l2dexDeploy()
     console.log('L2dex contract successfully deployed:')
-    //console.log(resultDeploy)
+    console.log(resultDeploy)
 
 }
 

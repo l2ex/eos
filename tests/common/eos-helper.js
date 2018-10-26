@@ -1,6 +1,5 @@
 const fs = require('fs')
 const Eos = require('eosjs')
-const EosApi = require('eosjs-api')
 const EosEcc = require('eosjs-ecc')
 
 const config = require('./config')
@@ -14,12 +13,12 @@ class EosHelper {
         this.eos = Eos(config.eos.config)
         this.contracts = {
             token: {
-                abi: fs.readFileSync('./build/contracts/eosio.token.abi'),
-                wasm: fs.readFileSync('./build/contracts/eosio.token.wasm')
+                abi: fs.readFileSync('./bin/contracts/eosio.token.abi'),
+                wasm: fs.readFileSync('./bin/contracts/eosio.token.wasm')
             },
             l2dex: {
-                abi: fs.readFileSync('./build/contracts/l2dex.abi'),
-                wasm: fs.readFileSync('./build/contracts/l2dex.wasm')
+                abi: fs.readFileSync('./bin/contracts/l2dex.abi'),
+                wasm: fs.readFileSync('./bin/contracts/l2dex.wasm')
             }
         }
         this.options = {
@@ -142,9 +141,9 @@ class EosHelper {
 
     l2dexDeploy() {
         return this.eos.setcode(accounts.l2dex.name, 0, 0, this.contracts.l2dex.wasm, this.options.l2dex).then(result => {
-            //console.log(result)
+            console.log(result)
             return this.eos.setabi(accounts.l2dex.name, JSON.parse(this.contracts.l2dex.abi), this.options.l2dex).then(result => {
-                //console.log(result)
+                console.log(result)
             })
         })
     }

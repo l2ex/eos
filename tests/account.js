@@ -7,11 +7,9 @@ const bytes = 1024 * 1024
 const net = 100
 const cpu = 100
 
-const account = accounts.l2dex
-const keys = { owner: account.owner.publicKey, active: account.active.publicKey }
+async function go(account, bytes, net, cpu) {
 
-
-async function go(account, keys, bytes, net, cpu) {
+    const keys = { owner: account.owner.publicKey, active: account.active.publicKey }
 
     const resultCreateToken = await eosHelper.createAccount(account.name, keys)
     console.log(`Created account '${account.name}':`)
@@ -27,4 +25,8 @@ async function go(account, keys, bytes, net, cpu) {
 
 }
 
-go(account, keys, bytes, net, cpu)
+// go(accounts.l2dex, bytes, net, cpu)
+// go(accounts.test, bytes, net, cpu)
+// go(accounts.first, bytes, net, cpu)
+// go(accounts.second, bytes, net, cpu)
+// go(accounts.third, bytes, net, cpu)

@@ -2,12 +2,12 @@ module.exports = {
     token: {
         name: 'eosio.token',
         owner: {
-            privateKey: '???',
-            publicKey: '???'
+            privateKey: '5JjLcrNXSHkHac1XC3ENy4wajccW8gP31ra9pcfFynNoUYPXA36',
+            publicKey: 'EOS5SgBKgPo2wmusCqxsMiMpnb4i7RCZjFuyKwMKDWk3wAhHHFkpw'
         },
         active: {
-            privateKey: '???',
-            publicKey: '???'
+            privateKey: '5JjLcrNXSHkHac1XC3ENy4wajccW8gP31ra9pcfFynNoUYPXA36',
+            publicKey: 'EOS5SgBKgPo2wmusCqxsMiMpnb4i7RCZjFuyKwMKDWk3wAhHHFkpw'
         }
     },
     l2dex: {

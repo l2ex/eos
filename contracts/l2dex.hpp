@@ -25,11 +25,11 @@ class [[eosio::contract("l2dex")]] l2dex : public eosio::contract {
 
     // Deposits tokens to a channel by user
     [[eosio::action]]
-    void deposit(eosio::name sender, const eosio::public_key& sender_key, eosio::extended_asset amount);
+    void deposit(eosio::name sender, const eosio::public_key& sender_key, const eosio::extended_asset& amount);
 
     // Performs withdraw tokens to user
     [[eosio::action]]
-    void withdraw(eosio::name sender, eosio::extended_asset amount);
+    void withdraw(eosio::name sender, const eosio::extended_asset& amount);
 
     // Extends expiration of the channel by user
     [[eosio::action]]
@@ -40,7 +40,7 @@ class [[eosio::contract("l2dex")]] l2dex : public eosio::contract {
     void update(
         eosio::name sender,
         eosio::name owner,
-        eosio::extended_asset change,
+        const eosio::extended_asset& change,
         uint64_t nonce,
         bool apply,
         uint64_t free,

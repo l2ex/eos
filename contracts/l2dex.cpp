@@ -51,7 +51,7 @@ void l2dex::changeowner(name new_owner, const public_key& new_owner_key) {
     _state_singleton.set(_state, _state.oracle);
 }
 
-void l2dex::deposit(name sender, const public_key& sender_key, extended_asset amount) {
+void l2dex::deposit(name sender, const public_key& sender_key, const extended_asset& amount) {
 
     eosio_assert(_initialized, "contract is not initialized");
 
@@ -115,7 +115,7 @@ void l2dex::deposit(name sender, const public_key& sender_key, extended_asset am
     }
 }
 
-void l2dex::withdraw(name sender, extended_asset amount) {
+void l2dex::withdraw(name sender, const extended_asset& amount) {
 
     eosio_assert(_initialized, "contract is not initialized");
 
@@ -191,7 +191,7 @@ void l2dex::extend(name sender, uint32_t ttl) {
 void l2dex::update(
     name sender,
     name channel_owner,
-    extended_asset change,
+    const extended_asset& change,
     uint64_t nonce,
     bool apply,
     uint64_t free,

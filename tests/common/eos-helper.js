@@ -112,6 +112,15 @@ class EosHelper {
 
     // Contract management
 
+    tokenDeploy() {
+        return this.eos.setcode(accounts.token.name, 0, 0, this.contracts.token.wasm, this.options.token).then(result => {
+            //console.log(result)
+            return this.eos.setabi(accounts.token.name, JSON.parse(this.contracts.token.abi), this.options.token).then(result => {
+                //console.log(result)
+            })
+        })
+    }
+
     // symbol - symbol of creating currency as string
     // supply - amount of supplying currency with precision after point (important) as string
     createToken(symbol, supply) {
@@ -141,9 +150,9 @@ class EosHelper {
 
     l2dexDeploy() {
         return this.eos.setcode(accounts.l2dex.name, 0, 0, this.contracts.l2dex.wasm, this.options.l2dex).then(result => {
-            console.log(result)
+            //console.log(result)
             return this.eos.setabi(accounts.l2dex.name, JSON.parse(this.contracts.l2dex.abi), this.options.l2dex).then(result => {
-                console.log(result)
+                //console.log(result)
             })
         })
     }

@@ -25,6 +25,7 @@ async function go(account, bytes, net, cpu) {
 
 }
 
+// go(accounts.token, bytes, net, cpu)
 // go(accounts.l2dex, bytes, net, cpu)
 // go(accounts.test, bytes, net, cpu)
 // go(accounts.first, bytes, net, cpu)

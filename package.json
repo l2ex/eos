@@ -2,12 +2,9 @@
   "name": "eos",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
+  "main": "scripts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node ."
   },
   "repository": {
     "type": "git",
@@ -20,9 +17,12 @@
   },
   "homepage": "https://github.com/l2ex/eos#readme",
   "dependencies": {
+    "@types/node": "^10.12.0",
     "bn.js": "^4.11.8",
-    "eosjs": "^16.0.9",
+    "eosjs": "16.0.9",
     "eslint": "^5.7.0",
-    "jshint": "^2.9.6"
+    "jshint": "^2.9.6",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.3"
   }
 }

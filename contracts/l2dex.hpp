@@ -2,70 +2,69 @@
 
 #include "common/structs.hpp"
 
-
-class [[eosio::contract("l2dex")]] l2dex : public eosio::contract {
-
-  public:
-
-    using contract::contract;
-
-    using state_singleton = eosio::singleton<"state"_n, state>;
-    using channels_table = eosio::multi_index<"channels"_n, channel>;
+using eosio::asset;
+using eosio::extended_asset;
+using eosio::name;
+using eosio::public_key;
+using std::string;
 
 
-    l2dex(eosio::name self, eosio::name code, eosio::datastream<const char*> data);
+class [[eosio::contract("l2dex")]] l2dex : public eosio::contract
+{
 
-    // Initializes the contract so it can be used
-    [[eosio::action]]
-    void initialize(eosio::name owner, const eosio::public_key& owner_key, eosio::name oracle);
+public:
 
-    // Changes owner address by oracle
-    [[eosio::action]]
-    void changeowner(eosio::name new_owner, const eosio::public_key& new_owner_key);
+   using contract::contract;
+   using state_singleton = eosio::singleton<"state"_n, state>;
+   using channels_table = eosio::multi_index<"channels"_n, channel>;
 
-    // Deposits tokens to a channel by user
-    [[eosio::action]]
-    void deposit(eosio::name sender, const eosio::public_key& sender_key, const eosio::extended_asset& amount);
+   l2dex(name self, name code, eosio::datastream<const char *> data);
 
-    // Performs withdraw tokens to user
-    [[eosio::action]]
-    void withdraw(eosio::name sender, const eosio::extended_asset& amount);
+   // Initializes the contract so it can be used
+   [[eosio::action]] void initialize(name owner, const eosio::public_key &owner_key, name oracle);
 
-    // Extends expiration of the channel by user
-    [[eosio::action]]
-    void extend(eosio::name sender, uint32_t ttl);
+   // Changes owner address by oracle
+   [[eosio::action]] void changeowner(name new_owner, const eosio::public_key &new_owner_key);
 
-    // Push offchain transaction with most recent balance change by user or by contract owner
-    [[eosio::action]]
-    void update(
-        eosio::name sender,
-        eosio::name owner,
-        const eosio::extended_asset& change,
-        uint64_t nonce,
-        bool apply,
-        uint64_t free,
-        const capi_signature& sign
-    );
+   // Performs withdraw tokens to user
+   [[eosio::action]] void withdraw(name sender, const extended_asset &amount);
+
+   // Extends expiration of the channel by user
+   [[eosio::action]] void extend(name sender, uint32_t ttl);
+
+   // Push offchain transaction with most recent balance change by user or by contract owner
+   [[eosio::action]] void update(
+      name sender,
+      name channel_owner,
+      const extended_asset &change,
+      uint64_t nonce,
+      bool apply,
+      uint64_t free,
+      const capi_signature &sign);
+
+   // Hook transfer (carbon-copy)
+   void hooktransfer(name from, name to, asset quantity, string memo);
 
 private:
 
-    void update_balance(channels_table::const_iterator channel, uint64_t token_contract, uint64_t token_symbol);
-    void update_withdrawable(channels_table::const_iterator channel, uint64_t token_contract, uint64_t token_symbol, uint64_t free);
+   void update_balance(channels_table::const_iterator channel, uint64_t token_contract, uint64_t token_symbol);
+   void update_withdrawable(channels_table::const_iterator channel, uint64_t token_contract, uint64_t token_symbol, uint64_t free);
+   void increase_token_balance(name contract, asset quantity);
 
-    int64_t find_contract_balance(uint64_t token_contract, uint64_t token_symbol);
-    int64_t find_channel_account(channels_table::const_iterator channel, uint64_t token_contract, uint64_t token_symbol);
+   int64_t find_contract_balance(uint64_t token_contract, uint64_t token_symbol);
+   int64_t find_channel_account(channels_table::const_iterator channel, uint64_t token_contract, uint64_t token_symbol);
 
 private:
 
-    state_singleton _state_singleton;
-    channels_table _channels;
+   state_singleton _state_singleton;
+   channels_table _channels;
 
-    bool _initialized;
-    state _state;
+   bool _initialized;
+   state _state;
 
-    // Minimal TTL that can be used to extend existing channel
-    static constexpr uint32_t TTL_MIN = 60 * 60 * 24; // 1 day
+   // Minimal TTL that can be used to extend existing channel
+   static constexpr uint32_t TTL_MIN = 60 * 60 * 24; // 1 day
 
-    // Initial TTL for new channels created just after the first deposit
-    static constexpr uint32_t TTL_DEFAULT = 60 * 60 * 24 * 20; // 20 days
+   // Initial TTL for new channels created just after the first deposit
+   static constexpr uint32_t TTL_DEFAULT = 60 * 60 * 24 * 20; // 20 days
 };

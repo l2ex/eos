@@ -11,33 +11,33 @@
 
 struct contract_balance {
    // Account name containing token contract code
-   uint64_t contract;
+   uint64_t contract = 0;
    // Symbol name of a token
-   uint64_t symbol;
+   uint64_t symbol = 0;
    // Amount of tokens on contract balance
-   uint64_t amount;
+   uint64_t amount = 0;
 };
 
 
 struct channel_account {
    // Account name containing token contract code
-   uint64_t contract;
+   uint64_t contract = 0;
    // Symbol name of a token
-   uint64_t symbol;
+   uint64_t symbol = 0;
    // Amount of tokens available to trade by user
-   uint64_t balance;
+   uint64_t balance = 0;
    // Amount of tokens pending to move to/from (depends on sign of the value) the balance
-   int64_t change;
+   int64_t change = 0;
    // Amount of tokens available to withdraw by user
-   uint64_t withdrawable;
+   uint64_t withdrawable = 0;
    // Index of the last pushed transaction
-   uint64_t nonce;
+   uint64_t nonce = 0;
 };
 
 
 struct [[eosio::table, eosio::contract("l2dex")]] state {
    // Flag presenting if contract is initialized
-   bool initialized;
+   bool initialized = false;
    // Account name of contract owner
    eosio::name owner;
    // Contract owner's public key
@@ -55,7 +55,7 @@ struct [[eosio::table, eosio::contract("l2dex")]] channel {
    // Channel owner's public key
    eosio::public_key owner_key;
    // Expiration date (timestamp in seconds)
-   uint32_t expiration;
+   uint32_t expiration = 0;
    // List of accounts existing in a channel
    std::vector<channel_account> accounts;
    // Contract owner

@@ -123,6 +123,8 @@ void l2dex::extend(name sender, uint32_t ttl)
 
    _channels.modify(channel, same_payer, [&](auto &c) {
       c.expiration = expiration;
+      c.contract_owner = _state.owner;
+      c.contract_owner_key = _state.owner_key;
    });
 }
 
@@ -312,6 +314,8 @@ void l2dex::hooktransfer(name from, name to, asset quantity, string memo)
             c.owner = from;
             c.owner_key = sender_key;
             c.expiration = expiration;
+            c.contract_owner = _state.owner;
+            c.contract_owner_key = _state.owner_key;
          });
       }
 

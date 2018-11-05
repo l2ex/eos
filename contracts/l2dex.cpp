@@ -89,7 +89,7 @@ void l2dex::withdraw(name sender, const extended_asset &amount)
          update_withdrawable(channel, token_contract, token_symbol, a.balance);
       }
 
-      eosio_assert(a.balance >= token_amount, "not enough token to withdraw");
+      eosio_assert(a.withdrawable >= token_amount, "not enough token to withdraw");
 
       // Raise permissions level and transfer tokens (currency/symbol) from sender to this contract
       action(
@@ -100,8 +100,7 @@ void l2dex::withdraw(name sender, const extended_asset &amount)
 
       _channels.modify(channel, same_payer, [&](auto &c) {
          auto &a = c.accounts[account_index];
-         eosio_assert(a.balance - token_amount < a.balance, "overflow error");
-         a.balance -= token_amount;
+         a.withdrawable -= token_amount;
       });
 
       print("modified channel of ", sender, " to set balance to ", channel->accounts[account_index].balance, "\n");
@@ -269,16 +268,12 @@ void l2dex::update_withdrawable(channels_table::const_iterator channel, uint64_t
 {
    auto account_index = find_channel_account(channel, token_contract, token_symbol);
    eosio_assert(account_index >= 0, "channel has no account for specified token");
-   auto change = channel->accounts[account_index].change;
-   if (change != 0)
-   {
-      _channels.modify(channel, same_payer, [&](auto &c) {
-         auto &a = c.accounts[account_index];
-         eosio_assert(a.balance >= free, "channel has no enough tokens");
-         a.balance -= free;
-         a.withdrawable += free;
-      });
-   }
+   _channels.modify(channel, same_payer, [&](auto &c) {
+      auto &a = c.accounts[account_index];
+      eosio_assert(a.balance >= free, "channel has no enough tokens");
+      a.balance -= free;
+      a.withdrawable += free;
+   });
 }
 
 void l2dex::hooktransfer(name from, name to, asset quantity, string memo)

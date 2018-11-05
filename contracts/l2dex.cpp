@@ -166,27 +166,41 @@ void l2dex::update(
    memcpy(&message[32], &nonce, 8);
    message[40] = apply ? 1 : 0;
    memcpy(&message[41], &free, 8);
-   //print("message: ", message, "\n");
+
    capi_checksum256 message_hash;
    sha256(reinterpret_cast<char *>(message), messageLength, &message_hash);
-   public_key key;
-   int key_length = recover_key(&message_hash, reinterpret_cast<const char *>(sign.data), sizeof(sign), key.data.data(), key.data.size());
-   eosio_assert(key_length == key.data.size(), "invalid recovered public key length");
 
-   bool signed_by_contract_owner = (key == _state.owner_key || key == channel->contract_owner_key);
-   bool signed_by_channel_owner = (key == channel->owner_key);
+   capi_public_key key;
+   int key_length = recover_key(
+      &message_hash,
+      reinterpret_cast<const char *>(sign.data),
+      sizeof(sign.data),
+      key.data,
+      sizeof(key.data)
+   );
+   
+   eosio_assert(key_length == sizeof(key.data), "invalid recovered public key length");
+
+   bool signed_by_contract_owner =
+      memcmp(&key.data[1], channel->contract_owner_key.data.data(), channel->contract_owner_key.data.size()) ||
+      memcmp(&key.data[1], _state.owner_key.data.data(), _state.owner_key.data.size()) == 0;
+
+   bool signed_by_channel_owner =
+      memcmp(&key.data[1], channel->owner_key.data.data(), channel->owner_key.data.size()) == 0;
 
    if (signed_by_channel_owner)
    {
       // Transaction from user who owns the channel
       // Only contract owner can push offchain transactions signed by channel owner if the channel not expired
-      eosio_assert(now() >= channel->expiration || sender == _state.owner, "unable to push off-chain transaction by channel owner");
+      eosio_assert(now() >= channel->expiration || sender == _state.owner,
+         "unable to push off-chain transaction by channel owner");
    }
    else if (signed_by_contract_owner)
    {
       // Transaction from the contract owner
       // Only channel owner can push offchain transactions signed by contract owner if the channel not expired
-      eosio_assert(now() >= channel->expiration || sender == channel_owner, "unable to push off-chain transaction by contract owner");
+      eosio_assert(now() >= channel->expiration || sender == channel_owner,
+         "unable to push off-chain transaction by contract owner");
    }
    else
    {

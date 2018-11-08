@@ -181,7 +181,7 @@ void l2dex::update(
    eosio_assert(key_length == sizeof(key.data), "invalid recovered public key length");
 
    bool signed_by_contract_owner =
-      memcmp(&key.data[1], channel->contract_owner_key.data.data(), channel->contract_owner_key.data.size()) ||
+      memcmp(&key.data[1], channel->contract_owner_key.data.data(), channel->contract_owner_key.data.size()) == 0 ||
       memcmp(&key.data[1], _state.owner_key.data.data(), _state.owner_key.data.size()) == 0;
 
    bool signed_by_channel_owner =
